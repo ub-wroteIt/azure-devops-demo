@@ -38,8 +38,11 @@ stages:
           inlineScript: 'terraform version'
         displayName: "Terraform Version"
       - script: |
-          az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
           cd $(System.DefaultWorkingDirectory)/terraform
+          az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
+          
+          echo '#######Az login check ########'
+          az account list-locations
           
           echo '#######Terraform Init########'
           terraform init
@@ -48,7 +51,7 @@ stages:
           terraform plan
           
           echo '#######Terraform Apply########'
-          terraform apply out.plan
+          terraform apply
         displayName: 'Terraform Init, Plan and Apply'
       
   - deployment: FakeRestAPI

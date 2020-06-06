@@ -33,21 +33,33 @@ stages:
         inputs: 
           terraformVersion: '0.12.26'
         displayName: 'Install Terraform 0.12.26'
-      - script: |
-          cd $(System.DefaultWorkingDirectory)/terraform
-          
-          echo '#######Az login check ########'
-          az account list-locations
-          
-
-          echo '#######Terraform Init########'
-          terraform init
-          
-          echo '#######Terraform Plan########'
-          terraform plan
-          
-          echo '#######Terraform Apply########'
-          terraform apply
+      
+      - task: AzureCLI@1
+        inputs:
+          azureSubscription: '$(subscription_name)'
+          scriptLocation: 'inlineScript'
+          inlineScript: 'terraform version'
+        displayName: "Terraform Version"
+      
+      - task: AzureCLI@1
+        inputs:
+          azureSubscription: '$(subscription_name)'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            terraform version
+            cd $(System.DefaultWorkingDirectory)/terraform
+            
+            echo '#######Az login check ########'
+            az account list-locations
+            
+            echo '#######Terraform Init########'
+            terraform init
+            
+            echo '#######Terraform Plan########'
+            terraform plan
+            
+            echo '#######Terraform Apply########'
+            terraform apply
         displayName: 'Terraform Init, Plan and Apply'
       
   - deployment: FakeRestAPI

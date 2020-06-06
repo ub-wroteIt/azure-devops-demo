@@ -33,7 +33,7 @@ stages:
         displayName: 'Install Terraform 0.12.3'
       - task: AzureCLI@1
         inputs:
-          azureSubscription: $(TF_VAR_subscription_id)
+          azureSubscription: '$(subscription_name)'
           scriptLocation: 'inlineScript'
           inlineScript: 'terraform version'
         displayName: "Terraform Version"
@@ -62,7 +62,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: $(TF_VAR_subscription_id)
+              azureSubscription: '$(subscription_name)'
               appName: 'udacity-demo'
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip

@@ -33,12 +33,6 @@ stages:
         inputs: 
           terraformVersion: '0.12.26'
         displayName: 'Install Terraform 0.12.26'
-      - task: AzureCLI@1
-        inputs:
-          azureSubscription: '$(subscription_name)'
-          scriptLocation: 'inlineScript'
-          inlineScript: 'terraform version'
-        displayName: "Terraform Version"
       - script: |
           cd $(System.DefaultWorkingDirectory)/terraform
           az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
@@ -46,7 +40,6 @@ stages:
           echo '#######Az login check ########'
           az account list-locations
           
-          az account set --subscription $(ARM_SUBSCRIPTION_ID)
 
           echo '#######Terraform Init########'
           terraform init

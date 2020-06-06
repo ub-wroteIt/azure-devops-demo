@@ -38,7 +38,7 @@ stages:
           inlineScript: 'terraform version'
         displayName: "Terraform Version"
       - script: |
-          az login --service-principal -u $(TF_VAR_CLIENT_ID) -p $(TF_VAR_CLIENT_SECRET) --tenant $(TF_VAR_TENANT_ID)
+          az login --service-principal -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
           cd $(System.DefaultWorkingDirectory)/terraform
           
           echo '#######Terraform Init########'

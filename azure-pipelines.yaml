@@ -46,6 +46,8 @@ stages:
           echo '#######Az login check ########'
           az account list-locations
           
+          az account set --subscription $(ARM_SUBSCRIPTION_ID)
+
           echo '#######Terraform Init########'
           terraform init
           

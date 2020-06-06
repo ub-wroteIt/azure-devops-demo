@@ -31,21 +31,26 @@ stages:
     steps:
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
         displayName: 'Install Terraform 0.12.3'
-      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
-        displayName: 'terraform Init'
+      - task: AzureCLI@1
         inputs:
-          command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'  
-      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
-        displayName: 'terraform validate'
-        inputs:
-          command: 'validate'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
-        displayName: 'terraform apply'
-        inputs:
-          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-          command: 'apply'      
+          azureSubscription: ''
+          scriptLocation: 'inlineScript'
+          inlineScript: 'terraform version'
+        displayName: "Terraform Version"
+      - script: |
+          az login --service-principal -u $(TF_VAR_CLIENT_ID) -p $(TF_VAR_CLIENT_SECRET) --tenant $(TF_VAR_TENANT_ID)
+          cd $(System.DefaultWorkingDirectory)/terraform
+          
+          echo '#######Terraform Init########'
+          terraform init
+          
+          echo '#######Terraform Plan########'
+          terraform plan
+          
+          echo '#######Terraform Apply########'
+          terraform apply out.plan
+        displayName: 'Terraform Init, Plan and Apply'
+      
   - deployment: FakeRestAPI
     pool:
       vmImage: 'Ubuntu-16.04'

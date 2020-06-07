@@ -1,6 +1,5 @@
 **/*.tfstate
 **/*.json
-**/*.exe
 # Local .terraform directories
 **/.terraform/*
 

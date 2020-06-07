@@ -59,7 +59,7 @@ stages:
             terraform plan
             
             echo '#######Terraform Apply########'
-            terraform apply
+            terraform apply -auto-approve
         displayName: 'Terraform Init, Plan and Apply'
       
   - deployment: FakeRestAPI

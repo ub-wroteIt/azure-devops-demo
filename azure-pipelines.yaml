@@ -14,6 +14,19 @@ stages:
   #       knownHostsEntry: 'KNOWN_HOSTS_STRING'
   #       sshPublicKey: 'PUBLIC_KEY'
   #       sshKeySecureFile: 'id_rsa'
+    - task : Bash@3
+      displayName: newman install
+      inputs:  
+        targetType: 'inline'
+        script: |
+            npm install -g newman
+       
+    - task : Bash@3
+      displayName: Running Regression test
+      inputs:
+          targetType: 'inline'
+          script: |
+              newman run $(System.DefaultWorkingDirectory)/automatedtesting/postman/StarterAPIs.json --reporters cli,junit --reporter-junit-export apiTestResults.xml    
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
@@ -65,6 +78,7 @@ stages:
             terraform apply -var='pub=$(TF_VAR_PUB)' -auto-approve
         displayName: 'Terraform Init, Plan and Apply'
       
+
   - deployment: FakeRestAPI
     dependsOn: InfraCreation      
     pool:

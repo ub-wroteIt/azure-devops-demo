@@ -26,6 +26,12 @@ stages:
         targetType: 'inline'
         script: |
           newman run $(System.DefaultWorkingDirectory)/automatedtesting/postman/StarterAPIs.json --reporters cli,junit --reporter-junit-export apiTestResults.xml    
+    - task: PublishTestResults@2
+      displayName: Running Regression test
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/apiTestResults*.xml'
+        testRunTitle: 'Publishing API test results'
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:

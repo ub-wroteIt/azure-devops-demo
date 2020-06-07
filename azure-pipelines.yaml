@@ -19,7 +19,7 @@ stages:
       inputs:  
         targetType: 'inline'
         script: |
-            npm install -g newman
+            npm install  newman
        
     - task : Bash@3
       displayName: Running Regression test

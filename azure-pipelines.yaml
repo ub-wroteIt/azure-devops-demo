@@ -63,6 +63,7 @@ stages:
         displayName: 'Terraform Init, Plan and Apply'
       
   - deployment: FakeRestAPI
+    dependsOn: InfraCreation      
     pool:
       vmImage: 'Ubuntu-16.04'
     environment: 'TEST'
@@ -74,10 +75,11 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: '$(subscription_name)'
-              appName: 'udacity-demo'
+              appName: 'AppServiceTest-AppServiceLesson'
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
   - deployment: VMDeploy
+    dependsOn: FakeRestAPI          
     displayName: WebDeployment
     environment:
       name:  'TEST'

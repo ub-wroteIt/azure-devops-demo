@@ -84,10 +84,7 @@ stages:
   - deployment: VMDeploy
     dependsOn: FakeRestAPI          
     displayName: WebDeployment
-    environment:
-      name:  'TEST'
-      resourceType: VirtualMachine
-      tags: web
+    environment: 'TEST'
     strategy:
       runOnce:
         deploy:

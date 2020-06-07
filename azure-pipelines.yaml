@@ -55,11 +55,14 @@ stages:
             echo '#######Terraform Init########'
             terraform init
             
+            echo '#########Pub Key###########'
+            echo $(TF_VAR_PUB)
+            
             echo '#######Terraform Plan########'
-            terraform plan -var='pub=$TF_VAR_PUB'
+            terraform plan -var='pub=$(TF_VAR_PUB)'
             
             echo '#######Terraform Apply########'
-            terraform apply -var='pub=$TF_VAR_PUB' -auto-approve
+            terraform apply -var='pub=$(TF_VAR_PUB)' -auto-approve
         displayName: 'Terraform Init, Plan and Apply'
       
   - deployment: FakeRestAPI

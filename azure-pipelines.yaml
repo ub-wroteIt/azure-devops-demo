@@ -78,7 +78,7 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: '$(subscription_name)'
-              appName: 'AppServiceTest-AppServiceLesson'
+              appName: 'AppServiceTest-AppService'
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
   - deployment: VMDeploy

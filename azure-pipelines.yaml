@@ -48,8 +48,8 @@ stages:
         rootFolderOrFile: 'automatedtesting/selenium'
         includeRootFolder: false
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-ui-test.zip'
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-ui-test.zip
+        archiveFile: '$(Build.ArtifactStagingDirectory)/ui-test.zip'
+    - publish: $(Build.ArtifactStagingDirectory)/ui-test.zip
       displayName: 'Upload Package'
       artifact: drop-ui-suite
     
@@ -133,7 +133,6 @@ stages:
                 sudo apt-get install -y chromium-browser
                 pip3 install selenium
                 export PATH=$PATH:some/path
-                echo '#######Pwd####'
-                pwd
-                python drop-ui-suite/login.py          
+                unzip -o ../drop-ui-suite/ui-test.zip
+                python login.py          
 

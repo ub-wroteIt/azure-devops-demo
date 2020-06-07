@@ -20,13 +20,7 @@ stages:
         targetType: 'inline'
         script: |
           sudo  npm install  newman
-       
-    - task : Bash@3
-      displayName: Running Regression test
-      inputs:
-          targetType: 'inline'
-          script: |
-              newman run $(System.DefaultWorkingDirectory)/automatedtesting/postman/StarterAPIs.json --reporters cli,junit --reporter-junit-export apiTestResults.xml    
+          newman run $(System.DefaultWorkingDirectory)/automatedtesting/postman/StarterAPIs.json --reporters cli,junit --reporter-junit-export apiTestResults.xml                  
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:

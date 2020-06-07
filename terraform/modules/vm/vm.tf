@@ -1,26 +1,26 @@
 resource "azurerm_network_interface" "main" {
   name                = "${var.application_type}-${var.resource_type}-nic"
   location            = "${var.location}"
-  resource_group_name = "${var.resource_group_name}"
+  resource_group_name = "${var.resource_group}"
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = "${output.subnet_id_test}"
+    subnet_id                     = "${var.subnet_id_module}"
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = "${output.public_ip_address_id}"
+    public_ip_address_id          = "${var.public_ip_address_id_module}"
   }
 }
 
-resource "azurerm_linux_virtual_machine" "" {
-  name                = "${var.application_type}-${var.resource_type}-vm"
-  location            = "${var.location}"
-  resource_group_name = "${var.resource_group_name}"
-  size                = "Standard_B1s"
-  admin_username      = "superheroadmin"
+resource "azurerm_linux_virtual_machine" "test" {
+  name                  = "${var.application_type}-${var.resource_type}"
+  location              = "${var.location}"
+  resource_group_name   = "${var.resource_group}"
+  size                  = "Standard_B1s"
+  admin_username        = "adminuser"
   network_interface_ids = [azurerm_network_interface.main.id]
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = "${var.pub}"
   }
   os_disk {
     caching           = "ReadWrite"
@@ -31,5 +31,8 @@ resource "azurerm_linux_virtual_machine" "" {
     offer     = "UbuntuServer"
     sku       = "16.04-LTS"
     version   = "latest"
+  }
+  tags = {
+   name = "web"
   }
 }

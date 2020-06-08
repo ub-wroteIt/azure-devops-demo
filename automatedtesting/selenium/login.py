@@ -4,8 +4,14 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 class SwagLab:
 # Start the browser and login with standard_user
-
-    driver = webdriver.Chrome()
+    options = ChromeOptions()
+    options.add_argument("--no-sandbox")
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.binary_location = "/usr/bin/chromium-browser"
+    driver = webdriver.Chrome(chrome_options=options)
+    
     
     def login (self, user, password):
         print ('Starting the browser...')

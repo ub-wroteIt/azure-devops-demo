@@ -132,7 +132,11 @@ stages:
                 sudo apt-get install unzip -y
                 sudo apt-get install -y chromium-browser
                 pip3 install selenium
-                export PATH=$PATH:some/path
+                wget https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_linux64.zip
+                sudo unzip -o chromedriver_linux64.zip -d /opt/
+                export PATH=$PATH:opt/chromedriver
+                chmod 777 /opt/chromedriver
+                source ~/.bashrc
                 unzip -o ../drop-ui-suite/ui-test.zip
-                python login.py          
+                python3 login.py          
 
